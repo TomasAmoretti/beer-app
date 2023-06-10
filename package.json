@@ -1,0 +1,23 @@
+{
+  "name": "beer-app",
+  "version": "1.0.0",
+  "description": "Beer App Challenge",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server src --verbose",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomasAmoretti/beer-app.git"
+  },
+  "author": "Tomas Amoretti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TomasAmoretti/beer-app/issues"
+  },
+  "homepage": "https://github.com/TomasAmoretti/beer-app#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
