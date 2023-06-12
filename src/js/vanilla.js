@@ -1,29 +1,21 @@
-import * as items from "../api/products.js";
+import HomeScreen from "../screens/HomeScreen.js";
+import ProductScreen from "../screens/ProductScreen.js";
+import Error404Screen from "../screens/Error404Screen.js";
+import { parseRequestUrl } from "./utils.js";
 
-const router = () => {
-   getBeerList();
+const routes = {
+   "/": HomeScreen,
+   "/#/:id:brand": ProductScreen
+}
+
+const router = async () => {
+   const request = parseRequestUrl();
+   const parseUrl = (request.resource ? `/${request.resource}` : '/') + (request.id ? '/:id:brand' : '') + (request.verb ? `/${request.verba}` : '');
+   const screen = routes[parseUrl] ? routes[parseUrl] : Error404Screen;
+   const main = document.getElementById("myApp");
+   main.innerHTML = await screen.render();
 }
 
 window.addEventListener("load", router);
-
-function getBeerList() {
-   let beers = Object.entries(items.default);
-   console.log(Object.entries(beers));
-   const beerList = document.createElement("div");
-   beerList.classList.add("product-list","row","row-cols-lg-4","row-cols-md-3", "row-cols-sm-2");
-
-   beers.forEach((beer) => {
-      const beerItem = document.createElement("div");
-      beerItem.classList.add("product-item","themed-grid-col");
-      beerList.appendChild(beerItem);
-      beerItem.innerHTML = `
-      <div class="card" id="beer-${beer[1].id}">
-      <a href="/${beer[1].id}${beer[1].brand.replace(" ","")}" class="product-link">
-          <img src="..${beer[1].image}" class="product-img" />
-          <span class="product-brand">${beer[1].brand}</span>
-      </a>
-      </div>`
-   });
-
-   document.getElementById("myApp").appendChild(beerList);
-}
+window.addEventListener("hash", router);
+window.onpopstate = router;
